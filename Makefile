@@ -4,16 +4,16 @@ CONTAINER_NAME=perl-power-outlet
 all:
 
 build:	Dockerfile index.html  power-outlet.ini
-	docker build --rm --tag=$(IMAGE_NAME) .
+	docker build --ulimit nofile=1024000:1024000 --rm --tag=$(IMAGE_NAME) .
 
 rebuild: build rm run
 	@echo -n
 
 run_no_mount:
-	docker run --privileged --detach --name $(CONTAINER_NAME) --publish 5028:80 -v /sys/fs/cgroup:/sys/fs/cgroup $(IMAGE_NAME)
+	docker run --detach --restart=unless-stopped --name $(CONTAINER_NAME) --publish 5028:80 $(IMAGE_NAME)
 
 run:
-	docker run --privileged --detach --name $(CONTAINER_NAME) --publish 5028:80 -v /sys/fs/cgroup:/sys/fs/cgroup -v /etc/power-outlet.ini:/etc/power-outlet.ini $(IMAGE_NAME)
+	docker run --detach --restart=unless-stopped --name $(CONTAINER_NAME) --publish 5028:80 -v /etc/power-outlet.ini:/etc/power-outlet.ini $(IMAGE_NAME)
 
 stop:
 	docker stop $(CONTAINER_NAME)
