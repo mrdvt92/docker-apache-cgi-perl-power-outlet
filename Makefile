@@ -1,4 +1,4 @@
-IMAGE_NAME=local/perl-power-outlet
+IMAGE_NAME=local/centos7-apache-cgi-perl-power-outlet
 CONTAINER_NAME=perl-power-outlet
 
 all:
@@ -27,4 +27,3 @@ bash:
 firewall:
 	sudo firewall-cmd --zone=public --permanent --add-port=5028/tcp
 	sudo firewall-cmd --reload
-
