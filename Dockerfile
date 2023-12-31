@@ -10,6 +10,7 @@ RUN yum -y install perl-Power-Outlet-application-cgi #v0.50-9
 
 COPY ./power-outlet.ini /etc/
 COPY ./index.html /var/www/html/
+COPY ./ServerName.conf /etc/httpd/conf.d/
 
 EXPOSE 80
 
