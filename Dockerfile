@@ -1,8 +1,9 @@
-FROM centos:7
+FROM almalinux:8
 
 RUN echo "Install from repos"
 RUN yum -y install epel-release
-RUN yum -y install http://linux.davisnetworks.com/el7/updates/mrdvt92-release-8-3.el7.mrdvt92.noarch.rpm
+RUN /usr/bin/crb enable
+RUN yum -y install https://linux.davisnetworks.com/el8/updates/mrdvt92-release-8-3.el8.noarch.rpm
 RUN yum -y update
 
 RUN yum -y install httpd
@@ -11,7 +12,8 @@ RUN yum -y install perl-Power-Outlet-application-cgi #v0.50-9
 COPY ./power-outlet.ini /etc/
 COPY ./index.html /var/www/html/
 COPY ./ServerName.conf /etc/httpd/conf.d/
+COPY ./power-outlet.conf /etc/httpd/conf.d/
 
 EXPOSE 80
 
-CMD ["/usr/sbin/httpd", "-D", "FOREGROUND"] #starts apache
+CMD ["/usr/sbin/httpd", "-D", "FOREGROUND"]
